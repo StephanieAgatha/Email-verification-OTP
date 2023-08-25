@@ -94,7 +94,7 @@ func SendEmailWithOTP(emailTo string, otp string) {
 			Name  string `json:"name"`
 			Email string `json:"email"`
 		}{
-			Name:  "Stephanie",
+			Name:  "Stephanie Project",
 			Email: "Stephanie@stephanieproject.my.id",
 		},
 		To: []struct {
@@ -104,7 +104,7 @@ func SendEmailWithOTP(emailTo string, otp string) {
 				Email: emailTo,
 			},
 		},
-		Subject: "Welcome on aboard",
+		Subject: "Log in to Stephanie Project",
 		HtmlContent: fmt.Sprintf(`
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

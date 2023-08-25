@@ -11,7 +11,7 @@ func GenerateJWT(email string) (string, error) {
 
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(10 * time.Minute)
+	claims["exp"] = time.Now().Add(10 * time.Minute).Unix()
 	claims["email"] = email
 	claims["iss"] = "Sora project"
 

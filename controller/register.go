@@ -18,6 +18,20 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	//email check
+	var emailexist model.Student
+	if err := config.DB.Where("email = ?", student.Email).First(&emailexist).Error; err == nil {
+		c.AbortWithStatusJSON(401, gin.H{"Error": "Email already exists"})
+		return
+	}
+
+	// username check
+	var usernameexist model.Student
+	if err := config.DB.Where("username = ?", student.Username).First(&usernameexist).Error; err == nil {
+		c.AbortWithStatusJSON(401, gin.H{"Error": "Username already exists"})
+		return
+	}
+
 	//generate bcrypt
 	hashpw, err := bcrypt.GenerateFromPassword([]byte(student.Password), 10)
 	if err != nil {
@@ -28,6 +42,7 @@ func Register(c *gin.Context) {
 
 	//save to db
 	if err = config.DB.Create(&student).Error; err != nil {
+		c.AbortWithStatusJSON(400, gin.H{"Error": err.Error()})
 		log.Println("Failed to register ", err.Error())
 		return
 	}

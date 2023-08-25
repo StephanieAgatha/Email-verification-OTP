@@ -33,11 +33,12 @@ func LoginStart(c *gin.Context) {
 
 	//send email with otp
 	otp, _ := helper.GenerateOTP()
-	service.SendEmailWithOTP(loginreq.Email, strconv.Itoa(otp))
-	otpMap[loginreq.Email] = otp // Simpan OTP sebagai int
+	service.SendEmailWithOTP(loginreq.Email, strconv.Itoa(otp)) // Simpan OTP sebagai int
+	otpMap[loginreq.Email] = otp
 
 	c.JSON(http.StatusOK, gin.H{"Message": "Email sent with OTP"})
 	slog.Infof("Sending otp to %v", loginreq.Email)
+	return
 }
 
 func HandleLogin(c *gin.Context) {
@@ -57,7 +58,7 @@ func HandleLogin(c *gin.Context) {
 		return
 	}
 
-	//jika otp request nya sama dengan stored otp (otp yang dikirimkan ke email
+	//jika otp request nya sama dengan stored otp (otp yang dikirimkan ke email)
 	//send response ok dengan jwt dan delete otp nya
 	if request.OTP == storedOTP {
 		token, err := helper.GenerateJWT(request.Email)
