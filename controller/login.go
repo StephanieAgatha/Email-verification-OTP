@@ -68,6 +68,9 @@ func HandleLogin(c *gin.Context) {
 
 		delete(otpMap, request.Email)
 
+		// save token to cookie > exp dalam waktu 6 jam hehe
+		c.SetCookie("token", token, 21600, "/", "", false, true)
+
 		c.JSON(http.StatusOK, gin.H{"Token": token})
 
 		slog.Infof("User %v logged in !", request.Email)
